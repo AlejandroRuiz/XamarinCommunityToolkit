@@ -1,4 +1,5 @@
 ﻿using System;
+using Xamarin.CommunityToolkit.Converters;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +12,8 @@ namespace Xamarin.CommunityToolkit.Extensions
 		public string Text { get; set; } = string.Empty;
 
 		public string? StringFormat { get; set; }
+
+		public TextCaseType? TextCase { get; set; }
 
 		object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 
@@ -31,6 +34,15 @@ namespace Xamarin.CommunityToolkit.Extensions
 				Source = LocalizationResourceManager.Current,
 				StringFormat = StringFormat
 			};
+
+			if (TextCase.HasValue)
+			{
+				binding.Converter = new TextCaseConverter
+				{
+					Type = TextCase.Value
+				};
+			}
+
 			return binding;
 #endif
 		}
